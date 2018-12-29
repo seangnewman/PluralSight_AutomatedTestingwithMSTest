@@ -22,7 +22,7 @@ namespace GameEngine.Tests
 
         [TestMethod]
        
-        [TestCategory("Player Defaults")]
+        [PlayerDefaults]
         //[Ignore]
         public void BeInexperienceWhenNew()
         {
@@ -36,8 +36,8 @@ namespace GameEngine.Tests
         }  // BeInexperienceWhenNew
 
         [TestMethod]
-        [TestCategory("Player Defaults")]
-       
+        [PlayerDefaults]
+
         public void NotHaveNickNameByDefault()
         {
             //Arrange
@@ -50,7 +50,7 @@ namespace GameEngine.Tests
         }
 
         [TestMethod]
-        [TestCategory("Player Defaults")]
+        [PlayerDefaults]
         public void StartWithDefaultHealth()
         {
             // Arrange
@@ -93,11 +93,8 @@ namespace GameEngine.Tests
         }
 
        [DataTestMethod]
-        
-        [DynamicData(nameof(ExternalHealthDamageData.TestData), typeof(ExternalHealthDamageData))]
-       
-
-        [TestCategory("Player Health")]
+       [CsvDataSource("Damage.csv")]
+        [PlayerHealth]
         public void TakeDamage(int damage, int expectedHealth)
         {
             // Arrange
@@ -113,8 +110,7 @@ namespace GameEngine.Tests
         }
 
         [TestMethod]
-        [TestCategory("Player Health")]
-
+        [PlayerHealth]
         public void TakeDamage_NotEqual()
         {
             // Arrange
@@ -129,7 +125,7 @@ namespace GameEngine.Tests
         }
 
         [TestMethod]
-        [TestCategory("Player Health")]
+        [PlayerHealth]
         [TestCategory("Another Category")]
         public void IncreaseHealthAfterSleeping()
         {
@@ -288,26 +284,37 @@ namespace GameEngine.Tests
         public void HaveAtLeastOneKindOfSword()
         {
             // Arrange
-             
+
 
             // Act
 
 
             // Assert
-            Assert.IsTrue(sut.Weapons.Any(weapon => weapon.Contains("Sword")));
+            //Assert.IsTrue(sut.Weapons.Any(weapon => weapon.Contains("Sword")));
+            CollectionAssert.That.AtLeastOnItemSatisfies(sut.Weapons,
+                                                                                                        weapon => weapon.Contains("Sword"));
         }
 
         [TestMethod]
         public void HaveNoDefaultEmptyWeapons()
         {
             // Arrange
-            
-
+           
             // Act
 
-
             // Assert
-            Assert.IsFalse(sut.Weapons.Any(weapon => string.IsNullOrWhiteSpace(weapon)));
+            //Assert.IsFalse(sut.Weapons.Any(weapon => string.IsNullOrWhiteSpace(weapon)));
+           // CollectionAssert.That.AllItemsNotNullOrWhitespace(sut.Weapons);
+           // CollectionAssert.That.AllItemsSatisfy(sut.Weapons,
+               //                                                                      weapons => !string.IsNullOrWhiteSpace(weapons));
+
+            CollectionAssert.That.All(sut.Weapons,
+                                                               weapon =>
+                                                               {
+                                                                   StringAssert.That.NotNullOrWhiteSpace(weapon);
+                                                                   Assert.IsTrue(weapon.Length > 5);
+                                                               }
+                );
         }
 
     }
