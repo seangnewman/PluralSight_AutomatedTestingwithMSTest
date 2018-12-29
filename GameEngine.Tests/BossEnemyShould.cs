@@ -1,0 +1,20 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace GameEngine.Tests
+{
+    [TestClass]
+    public class BossEnemyShould
+    {
+        [TestMethod]
+        public void HaveCorrectSpecialAttackPower()
+        {
+            // Arrange
+            var sut = new BossEnemy();
+
+            // Act
+
+            // Assert
+            Assert.AreEqual(166.6, sut.SpecialAttackPower, 0.07);
+        }
+    }
+}
