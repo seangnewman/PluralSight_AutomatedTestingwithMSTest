@@ -8,6 +8,18 @@ namespace GameEngine.Tests
     [TestClass]
     public class PlayerCharacterShould
     {
+        PlayerCharacter sut;
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            sut = new PlayerCharacter
+            {
+                FirstName = "Sarah",
+                LastName = "Smith"
+            };
+        }
+
+
         [TestMethod]
        
         [TestCategory("Player Defaults")]
@@ -15,7 +27,7 @@ namespace GameEngine.Tests
         public void BeInexperienceWhenNew()
         {
             //Arrange
-            var sut = new PlayerCharacter();
+            
 
             // Act
             
@@ -25,11 +37,11 @@ namespace GameEngine.Tests
 
         [TestMethod]
         [TestCategory("Player Defaults")]
-       // [Ignore("Temporarily disabled for refactoring")]
+       
         public void NotHaveNickNameByDefault()
         {
             //Arrange
-            var sut = new PlayerCharacter();
+          
 
             //Act
            
@@ -42,7 +54,7 @@ namespace GameEngine.Tests
         public void StartWithDefaultHealth()
         {
             // Arrange
-            var sut = new PlayerCharacter();
+          
 
             // Act
 
@@ -81,21 +93,15 @@ namespace GameEngine.Tests
         }
 
        [DataTestMethod]
-        // [DynamicData(nameof(Damages))]
-        //[DynamicData(nameof(GetDamages), DynamicDataSourceType.Method)]
-        //[DynamicData(nameof(DamageData.GetDamages), typeof(DamageData),  DynamicDataSourceType.Method)]
+        
         [DynamicData(nameof(ExternalHealthDamageData.TestData), typeof(ExternalHealthDamageData))]
-        //[DataRow(1, 99)]
-        // [DataRow(0, 100)]
-        // [DataRow(100, 1)]
-        // [DataRow(101, 1)]
-        // [DataRow(50, 50)]
+       
 
         [TestCategory("Player Health")]
         public void TakeDamage(int damage, int expectedHealth)
         {
             // Arrange
-            var sut = new PlayerCharacter();
+           
 
             // Act
             sut.TakeDamage(damage);
@@ -112,7 +118,7 @@ namespace GameEngine.Tests
         public void TakeDamage_NotEqual()
         {
             // Arrange
-            var sut = new PlayerCharacter();
+            
             // Act
 
             sut.TakeDamage(1);
@@ -128,24 +134,23 @@ namespace GameEngine.Tests
         public void IncreaseHealthAfterSleeping()
         {
             // Arrange
-            var sut = new PlayerCharacter();
-
+           
             // Act
             sut.Sleep();        // Expect value between 1 to 100 inclusive
 
             // Assert
-            Assert.IsTrue(sut.Health >= 101 && sut.Health <= 200);
+            //Assert.IsTrue(sut.Health >= 101 && sut.Health <= 200);
+            Assert.That.IsInRange(sut.Health, 101, 200);
         }
 
          [TestMethod]
          public void CalculateFullName()
         {
             //Act
-            var sut = new PlayerCharacter();
+           
 
             //Act
-            sut.FirstName = "Sarah";
-            sut.LastName = "Smith";
+          
 
             // Assert
             Assert.AreEqual("SARAH SMITH", sut.FullName, true);  // true ignores case 
@@ -155,14 +160,13 @@ namespace GameEngine.Tests
         public void HaveFullNameStartingWithFirstName()
         {
             // Arrange
-            var sut  = new PlayerCharacter();
+            
 
             // Act
-            sut.FirstName = "Sarah";
-            sut.LastName = "Smith";
+          
 
             // Assert
-            //Assert.IsTrue(sut.FullName.StartsWith("Sarah"));
+           
             StringAssert.StartsWith(sut.FullName, "Sarah");
         }
 
@@ -170,14 +174,13 @@ namespace GameEngine.Tests
         public void HaveFullNameEndingWithLastName()
         {
             // Arrange
-            var sut = new PlayerCharacter();
+            
 
             // Act
-            sut.FirstName = "Sarah";
-            sut.LastName = "Smith";
+           
 
             // Assert
-            //Assert.IsTrue(sut.FullName.StartsWith("Sarah"));
+           
             StringAssert.EndsWith(sut.FullName, "Smith");
         }
 
@@ -185,11 +188,10 @@ namespace GameEngine.Tests
         public void CalculateFullName_SubstringAssertExample()
         {
             // Arrange
-            var sut = new PlayerCharacter();
+            
 
             // Act
-            sut.FirstName = "Sarah";
-            sut.LastName = "Smith";
+           
 
             // Assert
             StringAssert.Contains(sut.FullName, "ah Sm");
@@ -199,11 +201,10 @@ namespace GameEngine.Tests
         public void CalculateFullNameWithTitleCase()
         {
             // Arrange
-            var sut = new PlayerCharacter();
+             
 
             // Act
-            sut.FirstName = "Sarah";
-            sut.LastName = "Smith";
+           
 
             // Assert
             //Assert.IsTrue(sut.FullName.StartsWith("Sarah"));
@@ -214,7 +215,7 @@ namespace GameEngine.Tests
         public void HaveALongBow()
         {
             // Arrange
-            var sut = new PlayerCharacter();
+            
 
             // Act
 
@@ -226,7 +227,7 @@ namespace GameEngine.Tests
         public void DoNotHaveAStaffOfWonder()
         {
             // Arrange
-            var sut = new PlayerCharacter();
+             
 
             // Act
 
@@ -238,7 +239,7 @@ namespace GameEngine.Tests
         public void HaveAllExpectedWeapons()
         {
             // Arrange
-            var sut = new PlayerCharacter();
+            
 
             // Act
             var expectedWeapons = new[]
@@ -256,7 +257,7 @@ namespace GameEngine.Tests
         public void HaveAllExpectedWeapons_AnyOrder()
         {
             // Arrange
-            var sut = new PlayerCharacter();
+            
 
             // Act
             var expectedWeapons = new[]
@@ -274,7 +275,7 @@ namespace GameEngine.Tests
         public void HaveNoDuplicateWeapons()
         {
             // Arrange
-            var sut = new PlayerCharacter();
+            
 
             // Act
 
@@ -287,7 +288,7 @@ namespace GameEngine.Tests
         public void HaveAtLeastOneKindOfSword()
         {
             // Arrange
-            var sut = new PlayerCharacter();
+             
 
             // Act
 
@@ -300,7 +301,7 @@ namespace GameEngine.Tests
         public void HaveNoDefaultEmptyWeapons()
         {
             // Arrange
-            var sut = new PlayerCharacter();
+            
 
             // Act
 
