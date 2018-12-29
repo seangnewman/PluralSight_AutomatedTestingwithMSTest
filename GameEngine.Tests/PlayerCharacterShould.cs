@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -50,18 +51,57 @@ namespace GameEngine.Tests
 
         }
 
-       [TestMethod]
+        public static IEnumerable<object[]> Damages
+        {
+            get
+            {
+                return new List<object[]>
+                {
+                    new object[] {1, 99},
+                    new object[] {0, 100},
+                    new object[] {100, 1},
+                    new object[] { 101, 1},
+                    new object[] {50, 50},
+                     new object[] {40, 60}
+                };
+            }
+        }
+
+        public static IEnumerable<object[]> GetDamages()
+        {
+            return new List<object[]>
+                {
+                    new object[] {1, 99},
+                    new object[] {0, 100},
+                    new object[] {100, 1},
+                    new object[] { 101, 1},
+                    new object[] {50, 50},
+                     new object[] {40, 60}
+                };
+        }
+
+       [DataTestMethod]
+        // [DynamicData(nameof(Damages))]
+        //[DynamicData(nameof(GetDamages), DynamicDataSourceType.Method)]
+        //[DynamicData(nameof(DamageData.GetDamages), typeof(DamageData),  DynamicDataSourceType.Method)]
+        [DynamicData(nameof(ExternalHealthDamageData.TestData), typeof(ExternalHealthDamageData))]
+        //[DataRow(1, 99)]
+        // [DataRow(0, 100)]
+        // [DataRow(100, 1)]
+        // [DataRow(101, 1)]
+        // [DataRow(50, 50)]
+
         [TestCategory("Player Health")]
-        public void TakeDamage()
+        public void TakeDamage(int damage, int expectedHealth)
         {
             // Arrange
             var sut = new PlayerCharacter();
 
             // Act
-            sut.TakeDamage(1);
+            sut.TakeDamage(damage);
 
             //Assert
-            Assert.AreEqual(99, sut.Health);
+            Assert.AreEqual(expectedHealth, sut.Health);
 
 
         }
